@@ -1,0 +1,84 @@
+---
+layout: post
+title:      "Mod3 Final Project "
+date:       2019-07-07 15:17:21 +0000
+permalink:  mod3_final_project
+---
+
+
+Technical ReadMe
+
+	  In an effort to bring two worlds together I took a data set from finance and applied machine learning 
+
+techniques to it in order to generate new insights. The dataset is a representation of potential features in 
+
+determining a person credibility in paying off a given loan which comprised of 19 sets of values. The 
+
+dataset was quite large in its original state exceeding 100 thousand rows which allowed for a quick and 
+
+painless technique of cleaning the data null values by simply dropping all rows related rows. Columns 
+
+that contained non-numerical data where binned together and given a numerical ranking and two 
+
+columns were dropped completely for not having statistical significance. The first model created was a 
+
+standard OLS using Statsmodel due to the libraries extensive regression analysis including Kurtosis, 
+
+Jarque-Bera, AIC & BIC and the p-value which speaks to the statistical significance of the features.   A 
+
+second logistic Statsmodel because our target variable is binary which under some circumstances can 
+
+produce a high R-squared value mean or goodness of fit of the model to the data. Unfortunately, both of 
+
+the Statsmodels have low R-squared values which tarnish the  accuracy of the model’s predictions. 
+
+      SKLearn is popular and extensive library hence we will move forward utilizing it.  Using the results from 
+		
+basic logistic regression we will create confusion matrix or the spread of correct and incorrect redictions 
+
+of the residual values. The reason for a confusion matrix is  to sheds light on biased representation which 
+
+can cause overfitting among other future problems with interpreting the data. To correct the fact there 
+
+being so few incorrect predictions Synthetic Minority Over-sampling Technique was applied to the 
+
+regression to evenly weight the distribution.To further decipher the results of the model we will look at 
+
+the false positive rates and the true positive rates using a Receiver Operator Characteristic Curve again 
+
+brought to you by the fine folks at SKLearn. The steeper the slope of curve  to 1.00 on the y-axis means 
+
+the better our accuracies of prediction.  A near perfect model would have near vertical exponential 
+
+growth then flatline at 1.00 on the True Positive Rate across 95% of the False Positive Rates. To further 
+
+assess that our model has good data going into it, a heat map which depicts the independence between 
+
+each of the features of the data frame  is shown. A correlation matrix which the heat map is based upon 
+
+gives a value to each feature correlation to one and other.  The features that have the most statistical 
+
+significance unsurprisingly are Current Credit Balance, Maximum Open Credit, Bankruptcies and Tax 
+
+Liens. 
+    	Now to start with actual machine learning techniques! The first of which is a Decision Tree Classifier 
+
+using the variable entropy for the criteria to separate data into similar containers while recording the 
+
+variability. The criteria determines how the tree separates the data, entropy deals with the information 
+
+gained going from the root to the leaves and Gini deals with probability.  A decision tree has multiple 
+
+variables that can be optimized to increase the accuracy of the model such as the minimum number of 
+
+splits, the maximum number of splits from the root, the maximum number of leaves per node to name a 
+
+few. With a very simple Decision Tree Classifier and our unbiased data we were able to make a model with
+
+85.5% accuracy. The Area Under the Curve (AUC) or amount points collected being 0.86 where 1.0 is the highest possible outcome and 0.0 being the lowest with a very baseline model. We can also optimize the parameters list by looking at the highest amount of AUC before there is a divergence between our training data and our test data. Despite our parameter tuning the professionals at SKLearn are still able to generate a better model for now. 
+
+	The use of decision trees can be taken a step further with the Bagging Decision Tree Classifier where subsets of the sample place are selected with replacement (Boot Strapping) to combine and create a final prediction. The Random Forest Classifier adds complexity and purpose to bagging a set  as we see increases the accuracy of our predictions slightly by specialization with different roots being allocated different combinations of features which creates different trees to compensate for overfitting. The next model utilized Gradient Boosting  trains data in a slightly different manner where each split in the decision tree only a small amount of information is gained at each iteration with a single tree with many branches due to sequential classifiers. The rationale behind Gradient Boosting is to focus on what was incorrectly predicted in the previous iteration as a means of moving forward to a more sound model.  The Gradient Boosting model is just slightly less accurate than the Random Forest model.  
+
+	Currently XGBoost is the top gun of the gradient boosting world.  XGBoost employee a weak learning strategy which incorrect predictions are optimized to allow for more through training. Having an unbiased data set should give better results than the previous models derived. However when the model is re-adjusted for biases XGBoost is not as outstanding.  The reason for this comes from how the model trains data, specifically how the trees are split in regards to their feature importance. Our data had Credit Score of maximum feature importance over 3 different criteria; weight, gain and cover.  For the sake of thoroughness  we will examine Shapely values as if there was a contradiction of feature importance and how the XG Boost model was affected by different criteria. Shapley values are derived from game theory basis where accuracy and consistence are inseparable. 
+
+	Next we will use the GridSearch CV which is also known as the Exhaustive Search for it uses ensemble methods to go through tree depths, minimum sample splits and different criteria classifications. This was by far the however I do not trust the results because they seem too good to be true. There are other machine learning techniques that I briefly visited but the models and method did not produce incredible results which included K-Nearest Neighbor(KNN), Principle Component Analysis(PCA) and Pipeline(aka Pipeline) . KNN is a distance model that compares data points in similar features to predict a new data point. Principle Component Analysis compresses the number of features in dataset through eigenvectors and eigenvalues which looses some variability but a much large drawback is that interpretation in regression becomes impossible to understand beyond  the model’s attributes. Lastly using the Pipeline method combined multiple models together including the support vector model which I did not include. However the Pipeline despite using GridSearch to iterate though multiple models did not bear a more viable result.  
